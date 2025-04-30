@@ -5,11 +5,27 @@
 {% block body %}
 <section class="hero">
     <div class="hero-content">
-        <h1>Bienvenue</h1>
-        <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
+        <h1 class="hero-title">Bienvenue</h1>
+        <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable <br><br> Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
     </div>
     <div class="hero-image">
         <img src="{{ asset('../assets/images/home-hero-image.jpg') }}" alt="Image hero">
+    </div>
+</section>
+<section class="products">
+    <div class="products-title">
+        <h2>Nos produits</h2>
+    </div>
+    <div class="products-container">
+        {% for product in products %}
+        <div class="product">
+            <img src="{{ asset('../assets/images/products/' ~ product.image) }}" alt="Image product">
+            <h3>{{ product.nom }}</h3>
+            <p>{{ product.description }}</p>
+            <p>{{ product.prixProduit }}€</p>
+            <a href="">Voir le produit</a>
+        </div>
+        {% endfor %}
     </div>
 </section>
 {% endblock %}
