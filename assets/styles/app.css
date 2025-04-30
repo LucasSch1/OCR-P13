@@ -1,3 +1,88 @@
+/* Réinitialiser les bordures */
+*,body{
+    margin: 0;
+    padding: 0;
+}
+
 body {
-    background-color: skyblue;
+    background-color: #F7F1EC;
+}
+
+
+/* Partie header */
+
+.navbar{
+    background-color: #FFFDF7;
+    padding: 31px 100px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.navbar .logo img{
+    width: 8.6vw;
+}
+
+.navbar .navigation {
+    display: flex;
+    align-items: center;
+}
+
+.navbar .navigation nav {
+    display: flex;
+    flex-direction: row;
+    gap: 53px;
+}
+
+.navbar .navigation nav a {
+    text-decoration: none;
+    color: #333333;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
+
+.navbar .navigation nav a:hover {
+    color: #666666;
+}
+
+
+
+
+/* Partie footer */
+.footer {
+    display: flex;
+    background-color: #FFFFFF;
+    stroke: #F6F5F0;
+    padding: 0px 100px 0px 993px;
+    justify-content: flex-end;
+    align-items: center;
+    height: 81px;
+}
+
+
+
+
+/* Partie hero */
+.hero {
+    display: flex;
+    flex-direction: row;
+    height: 52.15vh;
+}
+
+.hero-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 50%;
+}
+
+.hero-image{
+    display: flex;
+    width: 50%;
+    object-fit: contain;
+}
+
+.hero-image img{
+    width: 100%;
+    height: 100%;
+
 }
