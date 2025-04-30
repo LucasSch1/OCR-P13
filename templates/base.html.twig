@@ -12,6 +12,26 @@
         {% endblock %}
     </head>
     <body>
+        {% block header %}
+            <div class="navbar">
+                <div class="logo">
+                    <img src="{{ asset('../assets/icons/logo-site.svg') }}" alt="Logo du site">
+                </div>
+                <div class="navigation">
+                    <nav>
+                        <a href="/about">Nos produits</a>
+                        <a href="/contact">Mon panier</a>
+                        <a href="/contact">Mon compte</a>
+                        <a href="/contact">Déconnexion</a>
+                    </nav>
+                </div>
+            </div>
+        {% endblock %}
         {% block body %}{% endblock %}
+        {% block footer %}
+            <div class="footer">
+                <p>© GreenGoodies - {{ "now"|date("Y") }}</p>
+            </div>
+        {% endblock %}
     </body>
 </html>
