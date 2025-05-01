@@ -3,29 +3,52 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
-<section class="hero">
-    <div class="hero-content">
-        <h1 class="hero-title">Bienvenue</h1>
-        <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable <br><br> Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
-    </div>
-    <div class="hero-image">
-        <img src="{{ asset('../assets/images/home-hero-image.jpg') }}" alt="Image hero">
-    </div>
-</section>
-<section class="products">
-    <div class="products-title">
-        <h2>Nos produits</h2>
-    </div>
-    <div class="products-container">
-        {% for product in products %}
-        <div class="product">
-            <img src="{{ asset('../assets/images/products/' ~ product.image) }}" alt="Image product">
-            <h3>{{ product.nom }}</h3>
-            <p>{{ product.description }}</p>
-            <p>{{ product.prixProduit }}€</p>
-            <a href="">Voir le produit</a>
+    <section class="hero">
+        <div class="hero-content">
+            <h1 class="hero-title">Bienvenue</h1>
+            <p>Découvrez notre univers de produits durables et éthiques pour une consommation responsable <br><br> Retrouvez des articles d’hygiène & beauté, des accessoires & boissons et du prêt à porter</p>
         </div>
-        {% endfor %}
-    </div>
-</section>
+        <div class="hero-image">
+            <img src="{{ asset('../assets/images/home-hero-image.jpg') }}" alt="Image hero">
+        </div>
+    </section>
+    <section class="products">
+        <div class="products-title-section">
+            <h2>Nos produits</h2>
+        </div>
+        <div class="products-container">
+            {% for product in products %}
+            <div class="product">
+                <img src="{{ asset('../assets/images/products/' ~ product.image) }}" alt="Image product">
+                <div class="product-content">
+                    <div class="product-name-description">
+                        <h3>{{ product.nom }}</h3>
+                        <p>{{ product.description }}</p>
+                    </div>
+                    <p class="product-price">{{ product.prixProduit }}€</p>
+                    <a href="">Voir le produit</a>
+                </div>
+
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="conviction">
+        <div class="conviction-content">
+            <h2>Notre conviction</h2>
+            <p>Chez GreenGoodies, nous croyons en un monde où le commerce peut être synonyme de bien-être pour la planète et ses habitants. Notre mission est de vous proposer une sélection rigoureuse de produits qui allient qualité, durabilité et éthique</p>
+        </div>
+        <div class="conviction-image">
+            <img src="{{ asset('../assets/images/conviction-section-image.jpg') }}" alt="Image conviction">
+        </div>
+    </section>
+    <section class="valeurs">
+        <div class="valeurs-content">
+            <h2>Nos valeurs</h2>
+            <p>Durabilité : Nous sélectionnons soigneusement des produits qui respectent l'environnement et favorisent la durabilité. Éthique : Nous nous engageons à travailler avec des partenaires et des fournisseurs qui partagent nos valeurs éthiques. Écologie : Nous encourageons des pratiques respectueuses de l'écosystème et privilégions les matériaux écologiques.</p>
+        </div>
+        <div class="valeurs-image">
+            <img src="{{ asset('../assets/images/valeurs-section-image.jpg') }}" alt="Image valeurs">
+        </div>
+    </section>
 {% endblock %}
