@@ -108,7 +108,7 @@ body {
 
 
 /* Partie Nos produits */
-.products-title{
+.products-title-section{
     color: #333333;
     font-family: "Inter", sans-serif;
     font-weight: 500;
@@ -119,12 +119,135 @@ body {
 }
 
 .products-container{
-    display: flex;
-    flex-direction: row;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
 }
 
 .products-container .product{
     text-align: center;
     height: 692px;
+    gap: 20px;
 }
 
+
+.product .product-content{
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.product-name-description{
+    display: flex;
+    flex-direction: column;
+    font-family: "Inter", sans-serif;
+    gap: 8px;
+}
+
+.product-name-description h3{
+    color: #000000;
+    font-weight: 600;
+    font-size: 16px;
+    margin-top: 40px;
+}
+
+.product-name-description p{
+    color: #666666;
+    font-weight: 400;
+    font-size: 14px;
+}
+
+.product .product-price{
+    color: #333333;
+    font-weight: 400;
+    font-size: 14px;
+    font-family: "Inter", sans-serif;
+}
+
+.product-content a{
+    width: 100%;
+    height: 77px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-weight: 400;
+    color: #000000;
+}
+
+.product-content a:hover{
+    background-color: #333333;
+    color: #FFFDF7;
+}
+
+/*Partie conviction */
+
+.conviction{
+    display: flex;
+    flex-direction: row;
+    background-color: #EBE3D3;
+}
+
+.conviction-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    width: 66%;
+    padding :0 0 40px 40px;
+    gap: 10px;
+}
+
+.conviction-content h2{
+    font-size: 20px;
+    font-family: Inter, sans-serif;
+    color: #333333;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.conviction-content p{
+    width: 425px;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+    color: #333333;
+    font-weight: 300;
+}
+
+.conviction-image img{
+    display: flex;
+    object-fit: cover;
+
+}
+
+/*Partie valeur*/
+.valeurs{
+    display: flex;
+    flex-direction: row-reverse;
+    background-color: #E8F0E3;
+}
+
+.valeurs-content{
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: flex-end;
+    width: 66%;
+    padding :0 40px 40px 0;
+    gap: 10px;
+}
+
+.valeurs-content h2{
+    width: 425px;
+    font-size: 20px;
+    font-family: Inter, sans-serif;
+    color: #333333;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.valeurs-content p{
+    width: 425px;
+    font-size: 14px;
+    font-family: Inter, sans-serif;
+}
