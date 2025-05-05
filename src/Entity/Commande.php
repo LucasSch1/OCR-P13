@@ -26,7 +26,7 @@ class Commande
     private ?bool $estValidee = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(name: 'id_utilisateur',nullable: false)]
     private ?Utilisateur $idUtilisateur = null;
 
     /**
