@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ product.nom }}{% endblock %}
+
+{% block body %}
+    <div class="container-flex-detail-product">
+        <div class="container-image">
+            <img src="{{ asset(imagePath ~ product.image) }}" alt="">
+        </div>
+        <div class="container-text-product-detail">
+            <div class="container-title-price-product">
+                <div class="title-product">{{ product.nom }}</div>
+                <div class="price-product">{{ product.prixProduit }}€</div>
+            </div>
+            <div class="container-description-product">
+                <div class="description-product">{{ product.descriptionLongue }}</div>
+            </div>
+            <div class="container-add-to-cart">
+                <a href="">Ajouter au panier</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}
