@@ -20,7 +20,10 @@ class Produit
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
-    private ?string $description = null;
+    private ?string $descriptionLongue = null;
+
+    #[ORM\Column(length: 128)]
+    private ?string $descriptionCourte = null;
 
     #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
     private ?string $prixProduit = null;
@@ -33,6 +36,7 @@ class Produit
      */
     #[ORM\OneToMany(targetEntity: CommandeProduit::class, mappedBy: 'produit', orphanRemoval: true)]
     private Collection $commandeProduits;
+
 
     public function __construct()
     {
@@ -56,14 +60,14 @@ class Produit
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getDescriptionLongue(): ?string
     {
-        return $this->description;
+        return $this->descriptionLongue;
     }
 
-    public function setDescription(string $description): static
+    public function setDescriptionLongue(string $descriptionLongue): static
     {
-        $this->description = $description;
+        $this->descriptionLongue = $descriptionLongue;
 
         return $this;
     }
@@ -118,6 +122,18 @@ class Produit
                 $commandeProduit->setProduit(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getDescriptionCourte(): ?string
+    {
+        return $this->descriptionCourte;
+    }
+
+    public function setDescriptionCourte(string $descriptionCourte): static
+    {
+        $this->descriptionCourte = $descriptionCourte;
 
         return $this;
     }
