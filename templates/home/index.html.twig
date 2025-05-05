@@ -23,10 +23,10 @@
                 <div class="product-content">
                     <div class="product-name-description">
                         <h3>{{ product.nom }}</h3>
-                        <p>{{ product.description }}</p>
+                        <p>{{ product.descriptionCourte }}</p>
                     </div>
                     <p class="product-price">{{ product.prixProduit }}€</p>
-                    <a href="">Voir le produit</a>
+                    <a href="{{ path('app_view_detail_product', {'id': product.id}) }}">Voir le produit</a>
                 </div>
 
             </div>
