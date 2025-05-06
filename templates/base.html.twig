@@ -15,16 +15,21 @@
         {% block header %}
             <div class="navbar">
                 <div class="logo">
-                    <a href="{{ path('app_home') }}"> <!-- Utilise la route Symfony pour la page d'accueil -->
+                    <a href="{{ path('app_home') }}">
                         <img src="{{ asset('../assets/icons/logo-site.svg') }}" alt="Logo du site">
                     </a>
                 </div>
                 <div class="navigation">
                     <nav>
-                        <a href="/about">Nos produits</a>
-                        <a href="/contact">Mon panier</a>
-                        <a href="/contact">Mon compte</a>
-                        <a href="/contact">Déconnexion</a>
+                        {% if app.user %}
+                            <a href="/about">Nos produits</a>
+                            <a href="/contact">Mon panier</a>
+                            <a href="/contact">Mon compte</a>
+                            <a href="/logout">Déconnexion</a>
+                        {% else %}
+                            <a href="/connexion">Connexion</a>
+                            <a href="/inscription">Inscription</a>
+                        {% endif %}
                     </nav>
                 </div>
             </div>
