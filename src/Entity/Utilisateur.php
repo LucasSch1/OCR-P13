@@ -41,7 +41,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
 
 
     #[ORM\Column]
-    private ?bool $accesApi = null;
+    private ?bool $accesApi = false;
 
     /**
      * @var Collection<int, Commande>
@@ -52,6 +52,7 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     public function __construct()
     {
         $this->commandes = new ArrayCollection();
+        $this->roles = ['ROLE_USER'];
     }
 
     public function getId(): ?int
