@@ -372,11 +372,20 @@ body {
     flex-direction: column;
 }
 
+.login-container .login-form-section form .error-login{
+    color: red;
+    font-size: 18px;
+    font-family: Inter, sans-serif;
+    font-weight: 400;
+    text-align: center;
+}
+
 .login-container .login-form-section form input{
     height: 67px;
     border: 1px solid #666666;
     background-color: #FFFDF7;
     margin-bottom: 30px;
+    padding-left: 10px;
 }
 
 .login-container .login-form-section form label{
@@ -421,4 +430,88 @@ body {
     font-family: Inter, sans-serif;
     font-weight: 400;
     text-align: center;
+}
+
+/*Partie Inscription */
+.register-container{
+    display: flex;
+    flex-direction: row;
+}
+
+.register-container .register-image{
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.register-container .register-form-content {
+    padding: 80px 113px 143px 113px;
+    width: 479px;
+}
+
+.register-form-content .register-form-title h1{
+    font-size: 20px;
+    font-family: Inter, sans-serif;
+    color: #333333;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.register-form-content .register-form-title p{
+    font-size: 12px;
+    font-family: Inter, sans-serif;
+    color: #666666;
+    font-weight: 400;
+}
+
+
+.register-form-content .register-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.register-form .form-group {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch;
+    margin-bottom: 18px;
+    gap: 6px;
+}
+
+.register-form .form-group label {
+    display: block;
+    margin-bottom: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    color: #333333;
+}
+
+
+.register-form .form-group input,
+.register-form .form-group select {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    padding: 12px 15px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+
+.register-form .btn-registration{
+    display: flex;
+    width: 100%;
+    border: none;
+    padding : 30px 183px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #565656;
+    color: #FFF;
+    text-align: center;
+    font-family: "Inter", sans-serif;
+    font-size: 14px;
+    font-style: normal;
 }
