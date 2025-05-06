@@ -10,14 +10,13 @@
         <div class="container-text-product-detail">
             <div class="container-title-price-product">
                 <div class="title-product">{{ product.nom }}</div>
-                <div class="price-product">{{ product.prixProduit }}€</div>
+                <div class="price-product">{{ product.prixProduit|number_format(2,',') }}€</div>
             </div>
             <div class="container-description-product">
+                <div class="description-title">Description</div>
                 <div class="description-product">{{ product.descriptionLongue }}</div>
             </div>
-            <div class="container-add-to-cart">
-                <a href="">Ajouter au panier</a>
-            </div>
+            <a href="" class="link-add-cart">Ajouter au panier</a>
         </div>
     </div>
 {% endblock %}
