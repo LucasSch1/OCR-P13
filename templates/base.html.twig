@@ -15,7 +15,9 @@
         {% block header %}
             <div class="navbar">
                 <div class="logo">
-                    <img src="{{ asset('../assets/icons/logo-site.svg') }}" alt="Logo du site">
+                    <a href="{{ path('app_home') }}"> <!-- Utilise la route Symfony pour la page d'accueil -->
+                        <img src="{{ asset('../assets/icons/logo-site.svg') }}" alt="Logo du site">
+                    </a>
                 </div>
                 <div class="navigation">
                     <nav>
