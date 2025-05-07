@@ -20,7 +20,7 @@ class PanierProduits
     #[ORM\Column]
     private ?int $quantite = null;
 
-    #[ORM\Column(type: 'decimal',scale: 2)]
+    #[ORM\Column]
     private ?float $prixUnitaire = null;
 
     #[ORM\ManyToOne(inversedBy: 'panierProduits')]
