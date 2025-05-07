@@ -50,12 +50,6 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
     private Collection $commandes;
 
     /**
-     * @var Collection<int, Produit>
-     */
-    #[ORM\OneToMany(targetEntity: Produit::class, mappedBy: 'client')]
-    private Collection $produits;
-
-    /**
      * @var Collection<int, Panier>
      */
     #[ORM\OneToMany(targetEntity: Panier::class, mappedBy: 'utilisateur', orphanRemoval: true)]
