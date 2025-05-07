@@ -25,7 +25,7 @@ class Produit
     #[ORM\Column(length: 128)]
     private ?string $descriptionCourte = null;
 
-    #[ORM\Column(type: Types::DECIMAL, precision: 10, scale: 2)]
+    #[ORM\Column]
     private ?string $prixProduit = null;
 
     #[ORM\Column(length: 255)]
@@ -41,7 +41,7 @@ class Produit
     /**
      * @var Collection<int, PanierProduits>
      */
-    #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'prduit')]
+    #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'produit')]
     private Collection $panierProduits;
 
 
