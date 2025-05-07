@@ -16,7 +16,7 @@
                 <div class="description-title">Description</div>
                 <div class="description-product">{{ product.descriptionLongue }}</div>
             </div>
-            <a href="" class="link-add-cart">Ajouter au panier</a>
+            <a href="{{ path('app_add_to_cart', {'id': product.id}) }}" class="link-add-cart">Ajouter au panier</a>
         </div>
     </div>
 {% endblock %}
