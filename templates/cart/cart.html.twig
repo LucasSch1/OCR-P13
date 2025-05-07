@@ -13,24 +13,30 @@
                 <a>x Vider le panier</a>
             </div>
             <div class="cart-content-products-list">
-{#                {% for product in products %}#}
+                {% for panierProduit in panierProduits %}
                     <div class="product-card">
                         <div class="product-card-image">
-                            <img src="{{ product.image }}" alt="">
+                            <img src="{{ asset( imagePath ~ panierProduit.produit.image) }}" alt="">
                         </div>
                         <div class="product-card-info">
-                            <h3>{{ product.name }}</h3>
-                            <p>{{ product.quantite }}</p>
-                            <p>{{ product.price }}</p>
+                            <h3>{{ panierProduit.produit.nom }}</h3>
+                            <p class="product-quantity">Quantité :{{ panierProduit.quantite }}</p>
+                            <p class="product-price">{{ panierProduit.prixUnitaire | number_format(2, ',', ' ') }} €</p>
                         </div>
                     </div>
-{#                {% endfor %}#}
-                <div class="cart-content-total">
-                    <h3>Total panier :</h3>
-                    <p>{{ total }}€</p>
-                </div>
-                <a href="">Valider la commande</a>
+                {% endfor %}
             </div>
+            <div class="cart-content-total">
+                <div class="cart-content-total-price">
+                    <h3>Total panier :</h3>
+                    <p>{{ total | number_format(2, ',', ' ') }}€</p>
+                </div>
+                <p class="delivery-feeds">Frais de livraison : Offert</p>
+            </div>
+            <div class="btn-submit-order-container">
+                <a href="" class="btn-submit-order">Valider la commande</a>
+            </div>
+
         </div>
 
     </div>
