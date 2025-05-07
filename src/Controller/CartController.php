@@ -17,13 +17,30 @@ final class CartController extends AbstractController
 {
 
     #[Route('/panier', name: 'app_cart')]
-    public function showCart(): Response
+    public function showCart(PanierRepository $panierRepository): Response
     {
-        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $user = $this->getUser();
+//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
+        $utilisateur = $this->getUser();
+        $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
+
+        if (!$panier) {
+            return $this->render('panier/panier_vide.html.twig');
+        }
+
+        $panierProduits = $panier->getPanierProduits();
+        $imagePath = $this->getParameter('image_product_path');
+
+        $total = 0;
+        foreach ($panierProduits as $panierProduit) {
+            $total += $panierProduit->getPrixUnitaire() * $panierProduit->getQuantite();
+        }
 
         return $this->render('cart/cart.html.twig', [
             'controller_name' => 'CartController',
+            'panier' => $panier,
+            'panierProduits' => $panierProduits,
+            'total' => $total,
+            'imagePath' => $imagePath,
         ]);
     }
 
