@@ -38,9 +38,17 @@ class Produit
     private Collection $commandeProduits;
 
 
+    /**
+     * @var Collection<int, PanierProduits>
+     */
+    #[ORM\OneToMany(targetEntity: PanierProduits::class, mappedBy: 'prduit')]
+    private Collection $panierProduits;
+
+
     public function __construct()
     {
         $this->commandeProduits = new ArrayCollection();
+        $this->panierProduits = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -134,6 +142,60 @@ class Produit
     public function setDescriptionCourte(string $descriptionCourte): static
     {
         $this->descriptionCourte = $descriptionCourte;
+
+        return $this;
+    }
+
+    public function getStatut(): ?string
+    {
+        return $this->statut;
+    }
+
+    public function setStatut(string $statut): static
+    {
+        $this->statut = $statut;
+
+        return $this;
+    }
+
+    public function getClient(): ?Utilisateur
+    {
+        return $this->client;
+    }
+
+    public function setClient(?Utilisateur $client): static
+    {
+        $this->client = $client;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, PanierProduits>
+     */
+    public function getPanierProduits(): Collection
+    {
+        return $this->panierProduits;
+    }
+
+    public function addPanierProduit(PanierProduits $panierProduit): static
+    {
+        if (!$this->panierProduits->contains($panierProduit)) {
+            $this->panierProduits->add($panierProduit);
+            $panierProduit->setProduit($this);
+        }
+
+        return $this;
+    }
+
+    public function removePanierProduit(PanierProduits $panierProduit): static
+    {
+        if ($this->panierProduits->removeElement($panierProduit)) {
+            // set the owning side to null (unless already changed)
+            if ($panierProduit->getProduit() === $this) {
+                $panierProduit->setProduit(null);
+            }
+        }
 
         return $this;
     }
