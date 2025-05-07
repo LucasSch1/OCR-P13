@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon Panier{% endblock %}
+
+{% block body %}
+<section class="cart-page">
+    <div class="cart-container">
+        <div class="cart-title-page">
+            <h1>Mon Panier</h1>
+        </div>
+        <div class="cart-content">
+            <div class="cart-content-delete">
+                <a>x Vider le panier</a>
+            </div>
+            <div class="cart-content-products-list">
+{#                {% for product in products %}#}
+                    <div class="product-card">
+                        <div class="product-card-image">
+                            <img src="{{ product.image }}" alt="">
+                        </div>
+                        <div class="product-card-info">
+                            <h3>{{ product.name }}</h3>
+                            <p>{{ product.quantite }}</p>
+                            <p>{{ product.price }}</p>
+                        </div>
+                    </div>
+{#                {% endfor %}#}
+                <div class="cart-content-total">
+                    <h3>Total panier :</h3>
+                    <p>{{ total }}€</p>
+                </div>
+                <a href="">Valider la commande</a>
+            </div>
+        </div>
+
+    </div>
+</section>
+{% endblock %}
