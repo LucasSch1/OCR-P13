@@ -23,8 +23,8 @@
                     <nav>
                         {% if app.user %}
                             <a href="/about">Nos produits</a>
-                            <a href="/contact">Mon panier</a>
-                            <a href="/contact">Mon compte</a>
+                            <a href="{{ path("app_cart") }}">Mon panier</a>
+                            <a href="{{ path("app_user_account") }}">Mon compte</a>
                             <a href="/logout">Déconnexion</a>
                         {% else %}
                             <a href="/connexion">Connexion</a>
