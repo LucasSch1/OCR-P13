@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Mon compte{% endblock %}
+
+{% block body %}
+    <section class="account-page-bg">
+        <h2 class="title-my-account">Mon compte</h2>
+            <div class="account-orders-section">
+                <h3>Mes commandes</h3>
+                <table class="account-orders-table">
+                    <thead>
+                    <tr>
+                        <th>N°</th>
+                        <th>Date</th>
+                        <th>Prix</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for commande in commandes %}
+                        <tr>
+                            <td>{{ '%02d'|format(commande.id) }}</td>
+                            <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
+                            <td>{{ commande.prixCommande|number_format(2, ',', ' ') }}€</td>
+                        </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="account-api-section">
+                <h4>Mon accès API</h4>
+                <a href="" class="account-btn">Activer mon accès API</a>
+            </div>
+            <div class="account-delete-section">
+                <a href="" class="account-btn">Supprimer mon compte</a>
+            </div>
+    </section>
+{% endblock %}
