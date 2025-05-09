@@ -16,7 +16,15 @@
                 <div class="description-title">Description</div>
                 <div class="description-product">{{ product.descriptionLongue }}</div>
             </div>
-            <a href="{{ path('app_add_to_cart', {'id': product.id}) }}" class="link-add-cart">Ajouter au panier</a>
+            <form action="{{ path('app_add_to_cart', {'id': product.id}) }}" method="post" class="add-to-cart-form">
+                {% if inCart %}
+                    <label for="quantite">Quantité :</label>
+                    <input type="number" id="quantite" name="quantite" min="0" value="{{ quantite ?? 1 }}" required>
+                {% endif %}
+                <button type="submit" class="link-add-cart">
+                    {{ inCart ? 'Mettre à jour' : 'Ajouter au panier' }}
+                </button>
+            </form>
         </div>
     </div>
 {% endblock %}
