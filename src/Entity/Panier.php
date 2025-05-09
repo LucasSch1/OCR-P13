@@ -91,4 +91,13 @@ class Panier
 
         return $this;
     }
+
+    public function getPrixTotal(): ?string
+    {
+        $prixTotal = 0;
+        foreach ($this->panierProduits as $panierProduit) {
+            $prixTotal += $panierProduit->getPrixUnitaire() * $panierProduit->getQuantite();
+        }
+        return $prixTotal;
+    }
 }
