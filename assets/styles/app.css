@@ -664,3 +664,143 @@ body {
 }
 
 
+/*Page Mon Compte */
+
+.account-orders-section, .account-api-section, .account-delete-section {
+    width: 604px;
+}
+.account-page-bg {
+    background: #F7F3EF !important;
+    min-height: 100vh;
+    width: 100vw;
+}
+
+.account-page-bg .title-my-account {
+    text-align: center;
+    font-family: 'Inter', sans-serif;
+    font-size: 20px;
+    color: #333333;
+    font-weight: 500;
+}
+/*.account-container {*/
+/*    max-width: 520px;*/
+/*    margin: 48px auto 0 auto;*/
+/*    padding: 38px 0 38px 0;*/
+/*    display: flex;*/
+/*    flex-direction: column;*/
+/*    gap: 32px;*/
+/*    align-items: center;*/
+/*}*/
+
+/*.account-title {*/
+/*    text-align: center;*/
+/*    font-family: 'Inter', sans-serif;*/
+/*    font-size: 18px;*/
+/*    color: #444;*/
+/*    font-weight: 500;*/
+/*    margin-bottom: 32px;*/
+/*    margin-top: 0;*/
+/*}*/
+
+.account-orders-section {
+    background: #FFF;
+    width: 604px;
+    padding: 60px 60px 60px 60px;
+    margin: 43px auto 24px;
+
+}
+
+.account-orders-section h3, .account-api-section h4 {
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #222;
+    font-weight: 600;
+    margin-bottom: 18px;
+    margin-top: 0;
+}
+
+.account-orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #FFF;
+    font-family: 'Inter', sans-serif;
+    font-size: 13px;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+}
+
+.account-orders-table th, .account-orders-table td {
+    padding: 11px 8px 11px 0px;
+    text-align: left;
+}
+
+.account-orders-table th {
+    color: #B8B8B8;
+    font-weight: 400;
+    font-size: 12px;
+    background: #FFF;
+}
+
+.account-orders-table tr:not(:last-child) td {
+    border-bottom: 1px solid #ECECEC;
+}
+
+.account-orders-table td {
+    font-weight: 400;
+    font-size: 13px;
+    color: #444;
+}
+
+.account-api-section, .account-delete-section {
+    background: #FFF;
+    border-radius: 8px;
+    padding: 60px 60px 60px 60px;
+    margin-bottom: 24px;
+    display: flex;
+    flex-direction: column;
+    width: 604px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+
+.account-btn {
+    width: 39%;
+    padding: 30px 183px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background: #565656;
+    color: #FFF;
+    font-family: Inter, sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    text-align: center;
+    text-decoration: none;
+}
+.account-btn:hover {
+    background: #222;
+}
+
+.account-delete-section {
+    margin-bottom: 0;
+}
+
+@media (max-width: 700px) {
+    .account-container {
+        max-width: 98vw;
+        padding: 12px 0;
+    }
+    .account-orders-section, .account-api-section, .account-delete-section {
+        width: 97%;
+        padding-left: 0;
+        padding-right: 0;
+    }
+    .account-btn {
+        font-size: 14px;
+        padding: 16px 0;
+    }
+}
+
