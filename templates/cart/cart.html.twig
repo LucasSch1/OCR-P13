@@ -10,7 +10,7 @@
         </div>
         <div class="cart-content">
             <div class="cart-content-delete">
-                <a>x Vider le panier</a>
+                <a href="{{ path('app_empty_cart')}}">x Vider le panier</a>
             </div>
             <div class="cart-content-products-list">
                 {% for panierProduit in panierProduits %}
@@ -34,7 +34,7 @@
                 <p class="delivery-feeds">Frais de livraison : Offert</p>
             </div>
             <div class="btn-submit-order-container">
-                <a href="" class="btn-submit-order">Valider la commande</a>
+                <a href="{{ path('app_validate_cart') }}" class="btn-submit-order">Valider la commande</a>
             </div>
 
         </div>
