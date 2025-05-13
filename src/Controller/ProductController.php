@@ -4,8 +4,10 @@ namespace App\Controller;
 
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 final class ProductController extends AbstractController
 {
@@ -37,5 +39,22 @@ final class ProductController extends AbstractController
             'quantite' => $quantite,
             'inCart' => $inCart,
         ]);
+    }
+
+
+    #[Route('/api/products', name: 'app_listes_produits', methods: ['GET'])]
+    public function afficherTousLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer): JsonResponse{
+
+        $allProductsList = $produitRepository->findAll();
+
+        if (empty($allProductsList)) {
+            return new JsonResponse(['error' => "Aucun produit n'est disponible."],Response::HTTP_NOT_FOUND);
+        }
+
+        $jsonProductsList = $serializer->serialize($allProductsList, 'json',['groups' => 'getProducts']);
+        return new JsonResponse($jsonProductsList,Response::HTTP_OK);
+
+
+
     }
 }
