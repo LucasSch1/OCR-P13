@@ -7,6 +7,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Serializer\Annotation\Groups;
 
 #[ORM\Entity(repositoryClass: ProduitRepository::class)]
 class Produit
@@ -14,21 +15,27 @@ class Produit
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
+    #[Groups(["getProducts"])]
     private ?int $id = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getProducts"])]
     private ?string $nom = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Groups(["getProducts"])]
     private ?string $descriptionLongue = null;
 
     #[ORM\Column(length: 128)]
+    #[Groups(["getProducts"])]
     private ?string $descriptionCourte = null;
 
     #[ORM\Column]
+    #[Groups(["getProducts"])]
     private ?string $prixProduit = null;
 
     #[ORM\Column(length: 255)]
+    #[Groups(["getProducts"])]
     private ?string $image = null;
 
     /**
@@ -146,29 +153,6 @@ class Produit
         return $this;
     }
 
-    public function getStatut(): ?string
-    {
-        return $this->statut;
-    }
-
-    public function setStatut(string $statut): static
-    {
-        $this->statut = $statut;
-
-        return $this;
-    }
-
-    public function getClient(): ?Utilisateur
-    {
-        return $this->client;
-    }
-
-    public function setClient(?Utilisateur $client): static
-    {
-        $this->client = $client;
-
-        return $this;
-    }
 
     /**
      * @return Collection<int, PanierProduits>
