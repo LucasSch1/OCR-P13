@@ -499,6 +499,13 @@ body {
     border-radius: 4px;
 }
 
+.form-error {
+    color: #d32f2f;
+    font-size: 13px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
 
 .register-form .btn-registration{
     display: flex;
@@ -671,7 +678,6 @@ body {
 }
 .account-page-bg {
     background: #F7F3EF !important;
-    min-height: 100vh;
     width: 100vw;
 }
 
@@ -681,6 +687,7 @@ body {
     font-size: 20px;
     color: #333333;
     font-weight: 500;
+    padding-top: 43px;
 }
 /*.account-container {*/
 /*    max-width: 520px;*/
@@ -763,7 +770,9 @@ body {
     margin-right: auto;
 }
 
-
+.account-delete-section{
+    margin-bottom: 77px;
+}
 .account-btn {
     width: 39%;
     padding: 30px 183px;
@@ -785,7 +794,7 @@ body {
 }
 
 .account-delete-section {
-    margin-bottom: 0;
+    margin-bottom: 77px;
 }
 
 @media (max-width: 700px) {
