@@ -116,9 +116,9 @@ class Utilisateur implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function isAccesApi(): ?bool
+    public function getAccesApi(): bool
     {
-        return $this->accesApi;
+        return (bool) $this->accesApi;
     }
 
     public function setAccesApi(bool $accesApi): static
