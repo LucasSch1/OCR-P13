@@ -28,7 +28,11 @@
             </div>
             <div class="account-api-section">
                 <h4>Mon accès API</h4>
-                <a href="" class="account-btn">Activer mon accès API</a>
+                {% if accesApi == false %}
+                    <a href="{{ path('app_utilisateur_activer_api') }}" class="account-btn">Activer mon accès API</a>
+                {% else %}
+                    <a href="{{ path('app_utilisateur_desactiver_api') }}" class="account-btn">Désactiver mon accès API</a>
+                {% endif %}
             </div>
             <div class="account-delete-section">
                 <a href="{{ path('app_user_delete_account') }}" class="account-btn">Supprimer mon compte</a>
