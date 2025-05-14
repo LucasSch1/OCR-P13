@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Repository\ProduitRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -43,7 +44,15 @@ final class ProductController extends AbstractController
 
 
     #[Route('/api/products', name: 'app_listes_produits', methods: ['GET'])]
-    public function afficherTousLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer): JsonResponse{
+    public function afficherTousLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer, Security $security): JsonResponse
+    {
+
+
+        $user = $security->getUser();
+
+        if(!$security->isGranted('ROLE_USER') || !$user->getAccesApi()){
+            return new JsonResponse(['error' => 'Accès API non activé'],Response::HTTP_UNAUTHORIZED);
+        }
 
         $allProductsList = $produitRepository->findAll();
 
