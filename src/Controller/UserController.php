@@ -17,11 +17,14 @@ final class UserController extends AbstractController
 
         $commandes = $utilisateur->getCommandes();
 
+        $accesApi = $utilisateur->getAccesApi();
+
 
 
         return $this->render('user/account.html.twig', [
             'controller_name' => 'UserController',
             'commandes' => $commandes,
+            'accesApi' => $accesApi,
         ]);
     }
 
@@ -43,5 +46,26 @@ final class UserController extends AbstractController
         return $this->redirectToRoute('app_home');
 
 
+    }
+    #[Route('/utilisateur/api/activer', name: 'app_utilisateur_activer_api')]
+    public function activerAccesApi(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $utilisateur = $this->getUser();
+
+        $utilisateur->setAccesApi(true);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_user_account');
+    }
+
+    #[Route('/utilisateur/api/desactiver', name: 'app_utilisateur_desactiver_api')]
+    public function deactiverAccesApi(Request $request,EntityManagerInterface $entityManager): Response
+    {
+        $utilisateur = $this->getUser();
+
+        $utilisateur->setAccesApi(false);
+        $entityManager->flush();
+
+        return $this->redirectToRoute('app_user_account');
     }
 }
