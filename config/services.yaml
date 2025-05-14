@@ -7,6 +7,13 @@ parameters:
     image_product_path: '../assets/images/products/'
 
 services:
+    acme_api.event.authentication_failure_listener:
+        class: App\EventSubscriber\JWTAuthenticationFailureSubscriber
+        tags:
+            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_failure, method: onAuthenticationFailureEvent }
+    App\Security\JwtLoginSuccessHandler:
+        arguments:
+            - '@lexik_jwt_authentication.jwt_manager'
     # default configuration for services in *this* file
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
