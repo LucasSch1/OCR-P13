@@ -17,7 +17,7 @@ final class UserController extends AbstractController
 
         $commandes = $utilisateur->getCommandes();
 
-        $accesApi = $utilisateur->getAccesApi();
+        $accesApi = $utilisateur->isAccesApi();
 
 
 
