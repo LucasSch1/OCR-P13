@@ -5,6 +5,9 @@
 {% block body %}
 <section class="cart-page">
     <div class="cart-container">
+        <div class="alert alert-info" role="alert">
+            {{ message }}
+        </div>
         <div class="cart-title-page">
             <h1>Mon Panier</h1>
         </div>
@@ -33,8 +36,8 @@
                 </div>
                 <p class="delivery-feeds">Frais de livraison : Offert</p>
             </div>
-            <div class="btn-submit-order-container">
-                <a href="{{ path('app_validate_cart') }}" class="btn-submit-order">Valider la commande</a>
+            <div class="btn btn-submit-order-container">
+                <a href="{{ path('app_validate_cart') }}">Valider la commande</a>
             </div>
 
         </div>
