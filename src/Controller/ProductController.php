@@ -45,7 +45,7 @@ final class ProductController extends AbstractController
 
 
     #[Route('/api/products', name: 'app_listes_produits', methods: ['GET'])]
-    public function afficherTousLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer,AuthorizationCheckerInterface $authChecker): JsonResponse
+    public function afficherToutLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer,AuthorizationCheckerInterface $authChecker): JsonResponse
     {
 
 
