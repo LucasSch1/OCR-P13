@@ -16,6 +16,7 @@ use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\Security\Http\Attribute\IsGranted;
 
 final class CartController extends AbstractController
 {
@@ -28,13 +29,13 @@ final class CartController extends AbstractController
         $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
 
         if (!$panier) {
-            return $this->render('cart/empty.html.twig');
+            $message = "Vous n'avez pas de panier en cours.";
         }
 
         $panierProduits = $panier->getPanierProduits();
 
         if (!$panierProduits || count($panierProduits) === 0) {
-            return $this->render('cart/empty.html.twig');
+            $message = "Votre panier est vide.";
         }
 
         $imagePath = $this->getParameter('image_product_path');
@@ -50,10 +51,12 @@ final class CartController extends AbstractController
             'panierProduits' => $panierProduits,
             'total' => $total,
             'imagePath' => $imagePath,
+            'message' => $message,
         ]);
     }
 
     #[Route('/panier/ajouter/{id}', name: 'app_add_to_cart')]
+    #[Isgranted('IS_AUTHENTICATED_FULLY')]
     public function addProductToCart(int $id, ProduitRepository $produitRepository, PanierRepository $panierRepository, PanierProduitsRepository $panierProduitsRepository, EntityManagerInterface $entityManager,Request $request): RedirectResponse
     {
         $utilisateur = $this->getUser();
@@ -99,7 +102,9 @@ final class CartController extends AbstractController
         }
 
         $entityManager->flush();
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('app_view_detail_product', [
+            'id' => $id,
+        ]);
     }
 
 
@@ -110,7 +115,7 @@ final class CartController extends AbstractController
         $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
 
         if (!$panier) {
-            return $this->redirectToRoute('app_show_empty_cart');
+            $message = 'Aucun panier en cours';
         }
 
         $panierProduits = $panierProduitsRepository->findBy(['panier' => $panier]);
@@ -123,7 +128,9 @@ final class CartController extends AbstractController
 
         $this->addFlash('success','Le panier à été vidé avec succès.');
 
-        return $this->redirectToRoute('app_cart');
+        return $this->redirectToRoute('app_cart',[
+            'message' => $message
+        ]);
     }
 
     #[Route('/panier/valider', name: 'app_validate_cart')]
