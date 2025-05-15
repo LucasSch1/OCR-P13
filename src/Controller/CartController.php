@@ -2,13 +2,13 @@
 
 namespace App\Controller;
 
-use App\Entity\Commande;
-use App\Entity\CommandeProduit;
-use App\Entity\Panier;
-use App\Entity\PanierProduits;
-use App\Repository\PanierProduitsRepository;
-use App\Repository\PanierRepository;
-use App\Repository\ProduitRepository;
+use App\Entity\Order;
+use App\Entity\OrderProduct;
+use App\Entity\Cart;
+use App\Entity\CartProducts;
+use App\Repository\CartProductsRepository;
+use App\Repository\CartRepository;
+use App\Repository\ProductRepository;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -22,33 +22,35 @@ final class CartController extends AbstractController
 {
 
     #[Route('/panier', name: 'app_cart')]
-    public function showCart(PanierRepository $panierRepository): Response
+    public function showCart(CartRepository $cartRepository): Response
     {
+        $message = "";
 //        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
-        $utilisateur = $this->getUser();
-        $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
+        $user = $this->getUser();
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
 
-        if (!$panier) {
+        if (!$cart) {
             $message = "Vous n'avez pas de panier en cours.";
+            return $this->redirectToRoute('app_show_empty_cart');
         }
 
-        $panierProduits = $panier->getPanierProduits();
+        $cartProducts = $cart->getCartProducts();
 
-        if (!$panierProduits || count($panierProduits) === 0) {
+        if (!$cartProducts || count($cartProducts) === 0) {
             $message = "Votre panier est vide.";
         }
 
         $imagePath = $this->getParameter('image_product_path');
 
         $total = 0;
-        foreach ($panierProduits as $panierProduit) {
-            $total += $panierProduit->getPrixUnitaire() * $panierProduit->getQuantite();
+        foreach ($cartProducts as $cartProduct) {
+            $total += $cartProduct->getUnitPrice() * $cartProduct->getQuantity();
         }
 
         return $this->render('cart/cart.html.twig', [
             'controller_name' => 'CartController',
-            'panier' => $panier,
-            'panierProduits' => $panierProduits,
+            'cart' => $cart,
+            'cartProducts' => $cartProducts,
             'total' => $total,
             'imagePath' => $imagePath,
             'message' => $message,
@@ -57,45 +59,45 @@ final class CartController extends AbstractController
 
     #[Route('/panier/ajouter/{id}', name: 'app_add_to_cart')]
     #[Isgranted('IS_AUTHENTICATED_FULLY')]
-    public function addProductToCart(int $id, ProduitRepository $produitRepository, PanierRepository $panierRepository, PanierProduitsRepository $panierProduitsRepository, EntityManagerInterface $entityManager,Request $request): RedirectResponse
+    public function addProductToCart(int $id, ProductRepository $productRepository, CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager, Request $request): RedirectResponse
     {
-        $utilisateur = $this->getUser();
-        $quantite = (int) $request->request->get('quantite', 1);
+        $user = $this->getUser();
+        $quantity = (int) $request->request->get('quantity', 1);
 
-        $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
-        if (!$panier) {
-            $panier = new Panier();
-            $panier->setUtilisateur($utilisateur);
-            $panier->setStatut('en_cours');
-            $entityManager->persist($panier);
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        if (!$cart) {
+            $cart = new Cart();
+            $cart->setUser($user);
+            $cart->setStatus('en_cours');
+            $entityManager->persist($cart);
             $entityManager->flush();
         }
 
-        $produit = $produitRepository->find($id);
-        if (!$produit) {
+        $product = $productRepository->find($id);
+        if (!$product) {
             $this->addFlash('error', 'Produit introuvable');
             return $this->redirectToRoute('app_home');
         }
 
-        $panierProduit = $panierProduitsRepository->findOneBy(['panier' => $panier, 'produit' => $produit]);
+        $cartProduct = $cartProductsRepository->findOneBy(['cart' => $cart, 'product' => $product]);
 
-        if ($panierProduit) {
-            if ($quantite > 0) {
-                $panierProduit->setQuantite($quantite);
+        if ($cartProduct) {
+            if ($quantity > 0) {
+                $cartProduct->setQuantity($quantity);
                 $this->addFlash('success', 'Quantité mise à jour');
             } else {
-                $entityManager->remove($panierProduit);
-                $this->addFlash('success', 'Produit retiré du panier');
+                $entityManager->remove($cartProduct);
+                $this->addFlash('success', 'Produit retiré du cart');
             }
         } else {
-            if ($quantite > 0) {
-                $panierProduit = new PanierProduits();
-                $panierProduit->setPanier($panier);
-                $panierProduit->setProduit($produit);
-                $panierProduit->setQuantite($quantite);
-                $panierProduit->setPrixUnitaire($produit->getPrixProduit());
-                $entityManager->persist($panierProduit);
-                $this->addFlash('success', 'Produit ajouté au panier');
+            if ($quantity > 0) {
+                $cartProduct = new CartProducts();
+                $cartProduct->setCart($cart);
+                $cartProduct->setProduct($product);
+                $cartProduct->setQuantity($quantity);
+                $cartProduct->setUnitPrice($product->getProductPrice());
+                $entityManager->persist($cartProduct);
+                $this->addFlash('success', 'Produit ajouté au cart');
             } else {
                 $this->addFlash('info', 'Quantité invalide');
             }
@@ -109,19 +111,20 @@ final class CartController extends AbstractController
 
 
     #[Route('/panier/supprimer', name: 'app_empty_cart')]
-    public function emptyCart(PanierRepository $panierRepository,PanierProduitsRepository $panierProduitsRepository, EntityManagerInterface $entityManager): RedirectResponse
+    public function emptyCart(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): RedirectResponse
     {
-        $utilisateur = $this->getUser();
-        $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
+        $message = '';
+        $user = $this->getUser();
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
 
-        if (!$panier) {
+        if (!$cart) {
             $message = 'Aucun panier en cours';
         }
 
-        $panierProduits = $panierProduitsRepository->findBy(['panier' => $panier]);
+        $cartProducts = $cartProductsRepository->findBy(['cart' => $cart]);
 
-        foreach ($panierProduits as $panierProduit) {
-            $entityManager->remove($panierProduit);
+        foreach ($cartProducts as $cartProduct) {
+            $entityManager->remove($cartProduct);
         }
 
         $entityManager->flush();
@@ -134,41 +137,41 @@ final class CartController extends AbstractController
     }
 
     #[Route('/panier/valider', name: 'app_validate_cart')]
-    public function validateCommande(PanierRepository $panierRepository,PanierProduitsRepository $panierProduitsRepository, EntityManagerInterface $entityManager): RedirectResponse
+    public function validateCommande(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): RedirectResponse
     {
-        $utilisateur = $this->getUser();
-        $panier = $panierRepository->findOneBy(['utilisateur' => $utilisateur, 'statut' => 'en_cours']);
+        $user = $this->getUser();
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
 
-        if (!$panier) {
+        if (!$cart) {
             $this->addFlash('error', 'Aucun panier en cours');
             return $this->redirectToRoute('app_cart');
         }
 
-        $commande = new Commande();
-        $commande->setIdUtilisateur($utilisateur);
-        $commande->setDateCommande(new \DateTime());
-        $commande->setEstValidee(false);
-        $commande->setPrixCommande($panier->getPrixTotal());
+        $order = new Order();
+        $order->setUser($user);
+        $order->setOrderDate(new \DateTime());
+        $order->setIsValidated(false);
+        $order->setOrderPrice($cart->getTotalPrice());
 
-        foreach ($panier->getPanierProduits() as $panierProduit) {
-            $produit = $panierProduit->getProduit();
-            $quantite = $panierProduit->getQuantite();
-            $prixUnitaire = $panierProduit->getPrixUnitaire();
+        foreach ($cart->getCartProducts() as $cartProduct) {
+            $product = $cartProduct->getProduct();
+            $quantity = $cartProduct->getQuantity();
+            $unitPrice = $cartProduct->getUnitPrice();
 
-            $commandeProduit = new CommandeProduit();
-            $commandeProduit->setCommande($commande);
-            $commandeProduit->setProduit($produit);
-            $commandeProduit->setQuantite($quantite);
-            $commandeProduit->setPrixUnitaire($prixUnitaire);
-            $entityManager->persist($commandeProduit);
+            $orderProduct = new OrderProduct();
+            $orderProduct->setOrder($order);
+            $orderProduct->setProduct($product);
+            $orderProduct->setQuantity($quantity);
+            $orderProduct->setUnitPrice($unitPrice);
+            $entityManager->persist($orderProduct);
         }
-        $entityManager->persist($commande);
+        $entityManager->persist($order);
         $entityManager->flush();
 
-        $panier->setStatut('finalisé');
+        $cart->setStatus('finalisé');
         $entityManager->flush();
 
-        $commande->setEstValidee(true);
+        $order->setIsValidated(true);
         $entityManager->flush();
 
         $this->addFlash('success', 'Votre commande a été validée avec succès.');

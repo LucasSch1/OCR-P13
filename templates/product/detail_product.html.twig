@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}{{ product.nom }}{% endblock %}
+{% block title %}{{ product.name }}{% endblock %}
 
 {% block body %}
     <div class="container-flex-detail-product">
@@ -9,17 +9,17 @@
         </div>
         <div class="container-text-product-detail">
             <div class="container-title-price-product">
-                <div class="title-product">{{ product.nom }}</div>
-                <div class="price-product">{{ product.prixProduit|number_format(2,',') }}€</div>
+                <div class="title-product">{{ product.name }}</div>
+                <div class="price-product">{{ product.productPrice|number_format(2,',') }}€</div>
             </div>
             <div class="container-description-product">
                 <div class="description-title">Description</div>
-                <div class="description-product">{{ product.descriptionLongue }}</div>
+                <div class="description-product">{{ product.longDescription }}</div>
             </div>
             <form action="{{ path('app_add_to_cart', {'id': product.id}) }}" method="post" class="add-to-cart-form">
                 {% if inCart %}
-                    <label for="quantite">Quantité :</label>
-                    <input type="number" id="quantite" name="quantite" min="0" value="{{ quantite ?? 1 }}" required>
+                    <label for="quantity">Quantité :</label>
+                    <input type="number" id="quantity" name="quantity" min="0" value="{{ quantity ?? 1 }}" required>
                 {% endif %}
                 <button type="submit" class="btn">
                     {{ inCart ? 'Mettre à jour' : 'Ajouter au panier' }}

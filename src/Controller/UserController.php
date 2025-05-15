@@ -11,33 +11,33 @@ use Symfony\Component\Routing\Attribute\Route;
 final class UserController extends AbstractController
 {
     #[Route('/utilisateur', name: 'app_user_account')]
-    public function afficherCompteUtilisateur(): Response
+    public function showUserAccount(): Response
     {
-        $utilisateur = $this->getUser();
+        $user = $this->getUser();
 
-        $commandes = $utilisateur->getCommandes();
+        $orders = $user->getOrders();
 
-        $accesApi = $utilisateur->isAccesApi();
+        $apiAccess = $user->isApiAccess();
 
 
 
         return $this->render('user/account.html.twig', [
             'controller_name' => 'UserController',
-            'commandes' => $commandes,
-            'accesApi' => $accesApi,
+            'orders' => $orders,
+            'apiAccess' => $apiAccess,
         ]);
     }
 
     #[Route('/utilisateur/supprimer', name: 'app_user_delete_account')]
-    public function supprimerUtilisateur(Request $request,EntityManagerInterface $entityManager): Response
+    public function deleteUser(Request $request,EntityManagerInterface $entityManager): Response
     {
-        $utilisateur = $this->getUser();
+        $user = $this->getUser();
 
-        if (!$utilisateur) {
+        if (!$user) {
             return $this->redirectToRoute('app_home');
         }
 
-        $entityManager->remove($utilisateur);
+        $entityManager->remove($user);
         $entityManager->flush();
 
         $this->container->get('security.token_storage')->setToken(null);
@@ -47,23 +47,23 @@ final class UserController extends AbstractController
 
 
     }
-    #[Route('/utilisateur/api/activer', name: 'app_utilisateur_activer_api')]
-    public function activerAccesApi(Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/utilisateur/api/activer', name: 'app_user_activate_api')]
+    public function activateApiAccess(Request $request,EntityManagerInterface $entityManager): Response
     {
-        $utilisateur = $this->getUser();
+        $user = $this->getUser();
 
-        $utilisateur->setAccesApi(true);
+        $user->setApiAccess(true);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_user_account');
     }
 
-    #[Route('/utilisateur/api/desactiver', name: 'app_utilisateur_desactiver_api')]
-    public function deactiverAccesApi(Request $request,EntityManagerInterface $entityManager): Response
+    #[Route('/utilisateur/api/desactiver', name: 'app_user_deactivate_api')]
+    public function deactivateApiAccess(Request $request,EntityManagerInterface $entityManager): Response
     {
-        $utilisateur = $this->getUser();
+        $user = $this->getUser();
 
-        $utilisateur->setAccesApi(false);
+        $user->setApiAccess(false);
         $entityManager->flush();
 
         return $this->redirectToRoute('app_user_account');

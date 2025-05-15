@@ -2,7 +2,7 @@
 
 namespace App\Controller;
 
-use App\Repository\ProduitRepository;
+use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -14,21 +14,21 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class ProductController extends AbstractController
 {
     #[Route('/produit/{id}', name: 'app_view_detail_product', methods: ['GET'])]
-    public function getDetailProduct(ProduitRepository $produitRepository, int $id, \App\Repository\PanierRepository $panierRepository, \App\Repository\PanierProduitsRepository $panierProduitsRepository): Response
+    public function getDetailProduct(ProductRepository $produitRepository, int $id, \App\Repository\CartRepository $cartRepository, \App\Repository\CartProductsRepository $cartProductsRepository): Response
     {
         $selectedProduct = $produitRepository->find($id);
         $imagePath = $this->getParameter('image_product_path');
 
         $user = $this->getUser();
-        $quantite = 1;
+        $quantity = 1;
         $inCart = false;
 
         if ($user) {
-            $panier = $panierRepository->findOneBy(['utilisateur' => $user, 'statut' => 'en_cours']);
-            if ($panier) {
-                $panierProduit = $panierProduitsRepository->findOneBy(['panier' => $panier, 'produit' => $selectedProduct]);
-                if ($panierProduit) {
-                    $quantite = $panierProduit->getQuantite();
+            $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+            if ($cart) {
+                $cartProducts = $cartProductsRepository->findOneBy(['cart' => $cart, 'product' => $selectedProduct]);
+                if ($cartProducts) {
+                    $quantity = $cartProducts->getQuantity();
                     $inCart = true;
                 }
             }
@@ -38,24 +38,24 @@ final class ProductController extends AbstractController
             'controller_name' => 'ProductController',
             'product' => $selectedProduct,
             'imagePath' => $imagePath,
-            'quantite' => $quantite,
+            'quantity' => $quantity,
             'inCart' => $inCart,
         ]);
     }
 
 
     #[Route('/api/products', name: 'app_listes_produits', methods: ['GET'])]
-    public function afficherToutLesProduits(ProduitRepository $produitRepository,SerializerInterface $serializer,AuthorizationCheckerInterface $authChecker): JsonResponse
+    public function afficherToutLesProduits(ProductRepository $productRepository, SerializerInterface $serializer, AuthorizationCheckerInterface $authChecker): JsonResponse
     {
 
 
         $user = $this->getUser();
 
-        if (!$authChecker->isGranted('user.isAccesApi',$user)){
+        if (!$authChecker->isGranted('user.isApiAccess',$user)){
             return new JsonResponse(['message' => 'Accès API non activé'],Response::HTTP_UNAUTHORIZED);
         }
 
-        $allProductsList = $produitRepository->findAll();
+        $allProductsList = $productRepository->findAll();
 
         if (empty($allProductsList)) {
             return new JsonResponse(['error' => "Aucun produit n'est disponible."],Response::HTTP_NOT_FOUND);

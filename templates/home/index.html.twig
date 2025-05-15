@@ -22,10 +22,10 @@
                 <img src="{{ asset('../assets/images/products/' ~ product.image) }}" alt="Image product">
                 <div class="product-content">
                     <div class="product-name-description">
-                        <h3>{{ product.nom }}</h3>
-                        <p>{{ product.descriptionCourte }}</p>
+                        <h3>{{ product.name }}</h3>
+                        <p>{{ product.shortDescription }}</p>
                     </div>
-                    <p class="product-price">{{ product.prixProduit|number_format(2,',') }}€</p>
+                    <p class="product-price">{{ product.productPrice|number_format(2,',') }}€</p>
                     <a href="{{ path('app_view_detail_product', {'id': product.id}) }}">Voir le produit</a>
                 </div>
 

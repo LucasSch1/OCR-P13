@@ -2,7 +2,7 @@
 
 namespace App\Security\Voter;
 
-use App\Entity\Utilisateur;
+use App\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\Voter;
 
@@ -14,7 +14,7 @@ class AccesApiVoter extends Voter
      */
     protected function supports(string $attribute, mixed $subject): bool
     {
-        return 'user.isAccesApi' === $attribute && $subject instanceof Utilisateur;
+        return 'user.isApiAccess' === $attribute && $subject instanceof User;
     }
 
     /**
@@ -24,6 +24,6 @@ class AccesApiVoter extends Voter
     {
         $user = $subject;
 
-        return $user->isAccesApi() === true;
+        return $user->isApiAccess() === true;
     }
 }

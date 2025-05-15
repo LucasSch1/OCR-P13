@@ -25,7 +25,7 @@ class JwtLoginSuccessHandler implements AuthenticationSuccessHandlerInterface
     {
         $user = $token->getUser();
 
-        if (!$this->authChecker->isGranted('user.isAccesApi',$user)){
+        if (!$this->authChecker->isGranted('user.isApiAccess',$user)){
             return new JsonResponse([
                 'message' => 'Accès API non activé',
             ], 403);

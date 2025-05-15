@@ -16,15 +16,15 @@
                 <a href="{{ path('app_empty_cart')}}">x Vider le panier</a>
             </div>
             <div class="cart-content-products-list">
-                {% for panierProduit in panierProduits %}
+                {% for cartProduct in cartProducts %}
                     <div class="product-card">
                         <div class="product-card-image">
-                            <img src="{{ asset( imagePath ~ panierProduit.produit.image) }}" alt="">
+                            <img src="{{ asset( imagePath ~ cartProduct.product.image) }}" alt="">
                         </div>
                         <div class="product-card-info">
-                            <h3>{{ panierProduit.produit.nom }}</h3>
-                            <p class="product-quantity">Quantité :{{ panierProduit.quantite }}</p>
-                            <p class="product-price">{{ panierProduit.prixUnitaire | number_format(2, ',', ' ') }} €</p>
+                            <h3>{{ cartProduct.product.name }}</h3>
+                            <p class="product-quantity">Quantité :{{ cartProduct.quantity }}</p>
+                            <p class="product-price">{{ cartProduct.unitPrice | number_format(2, ',', ' ') }} €</p>
                         </div>
                     </div>
                 {% endfor %}

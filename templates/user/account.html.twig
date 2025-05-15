@@ -16,11 +16,11 @@
                     </tr>
                     </thead>
                     <tbody>
-                    {% for commande in commandes %}
+                    {% for order in orders %}
                         <tr>
-                            <td>{{ '%02d'|format(commande.id) }}</td>
-                            <td>{{ commande.dateCommande|date('d/m/Y') }}</td>
-                            <td>{{ commande.prixCommande|number_format(2, ',', ' ') }}€</td>
+                            <td>{{ '%02d'|format(order.id) }}</td>
+                            <td>{{ order.orderDate|date('d/m/Y') }}</td>
+                            <td>{{ order.orderPrice|number_format(2, ',', ' ') }}€</td>
                         </tr>
                     {% endfor %}
                     </tbody>
@@ -28,14 +28,14 @@
             </div>
             <div class="account-api-section">
                 <h4>Mon accès API</h4>
-                {% if accesApi == false %}
-                    <a href="{{ path('app_utilisateur_activer_api') }}" class="btn account-btn">Activer mon accès API</a>
+                {% if apiAccess == false %}
+                    <a href="{{ path('app_user_activate_api') }}" class="btn account-btn">Activer mon accès API</a>
                 {% else %}
-                    <a href="{{ path('app_utilisateur_desactiver_api') }}" class="btn account-btn">Désactiver mon accès API</a>
+                    <a href="{{ path('app_user_deactivate_api') }}" class="btn account-btn">Désactiver mon accès API</a>
                 {% endif %}
             </div>
             <div class="account-delete-section">
-                <a href="{{ path('app_utilisateur_supprimer_compte') }}" class="btn account-btn">Supprimer mon compte</a>
+                <a href="{{ path('app_user_delete_account') }}" class="btn account-btn">Supprimer mon compte</a>
             </div>
     </section>
 {% endblock %}
