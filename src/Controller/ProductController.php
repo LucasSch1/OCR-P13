@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Form\CartProductForm;
 use App\Repository\CartProductsRepository;
 use App\Repository\CartRepository;
 use App\Repository\ProductRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\JsonResponse;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Core\Authorization\AuthorizationCheckerInterface;
@@ -16,7 +18,7 @@ use Symfony\Component\Serializer\SerializerInterface;
 final class ProductController extends AbstractController
 {
     #[Route('/produit/{id}', name: 'app_view_detail_product', methods: ['GET'])]
-    public function getDetailProduct(ProductRepository $produitRepository, int $id, CartRepository $cartRepository, CartProductsRepository $cartProductsRepository): Response
+    public function getDetailProduct(Request $request, ProductRepository $produitRepository, int $id, CartRepository $cartRepository, CartProductsRepository $cartProductsRepository): Response
     {
         $selectedProduct = $produitRepository->find($id);
         $imagePath = $this->getParameter('image_product_path');
@@ -39,12 +41,23 @@ final class ProductController extends AbstractController
             }
         }
 
+        $form = $this->createForm(CartProductForm::class, [
+            'quantity' => $quantity,
+        ], [
+            'action' => $this->generateUrl('app_add_to_cart', ['id' => $selectedProduct->getId()]),
+            'method' => 'POST',
+        ]);
+
+        $form->handleRequest($request);
+
+
         return $this->render('product/detail_product.html.twig', [
             'controller_name' => 'ProductController',
             'product' => $selectedProduct,
             'imagePath' => $imagePath,
             'quantity' => $quantity,
             'inCart' => $inCart,
+            'form' => $form,
         ]);
     }
 
