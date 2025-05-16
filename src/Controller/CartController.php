@@ -6,6 +6,7 @@ use App\Entity\Order;
 use App\Entity\OrderProduct;
 use App\Entity\Cart;
 use App\Entity\CartProducts;
+use App\Form\CartProductForm;
 use App\Repository\CartProductsRepository;
 use App\Repository\CartRepository;
 use App\Repository\ProductRepository;
@@ -65,8 +66,13 @@ final class CartController extends AbstractController
     public function addProductToCart(int $id, ProductRepository $productRepository, CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager, Request $request): RedirectResponse
     {
         $user = $this->getUser();
-        // Récupère la valeur quantité envoyée depuis notre requête
-        $quantity = (int) $request->request->get('quantity', 1);
+
+        $form = $this->createForm(CartProductForm::class);
+        $form->handleRequest($request);
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            $quantity = $form->get('quantity')->getData();
+        }
 
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
         // Si aucun panier n'est en cours alors on en crée un nouveau
