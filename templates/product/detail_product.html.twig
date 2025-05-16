@@ -16,15 +16,18 @@
                 <div class="description-title">Description</div>
                 <div class="description-product">{{ product.longDescription }}</div>
             </div>
-            <form action="{{ path('app_add_to_cart', {'id': product.id}) }}" method="post" class="add-to-cart-form">
-                {% if inCart %}
-                    <label for="quantity">Quantité :</label>
-                    <input type="number" id="quantity" name="quantity" min="0" value="{{ quantity ?? 1 }}" required>
-                {% endif %}
+            <div class="container-quantity-product-form">
+                {{ form_start(form, {'attr': {'class': 'add-to-cart-form'}}) }}
+
+                {{ form_label(form.quantity) }}
+                {{ form_widget(form.quantity) }}
+
                 <button type="submit" class="btn">
                     {{ inCart ? 'Mettre à jour' : 'Ajouter au panier' }}
                 </button>
-            </form>
+
+                {{ form_end(form) }}
+            </div>
         </div>
     </div>
 {% endblock %}
