@@ -18,6 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\IsGranted;
 
+#[Isgranted('IS_AUTHENTICATED')]
 final class CartController extends AbstractController
 {
 
@@ -25,8 +26,8 @@ final class CartController extends AbstractController
     public function showCart(CartRepository $cartRepository): Response
     {
         $message = "";
-//        $this->denyAccessUnlessGranted('IS_AUTHENTICATED_FULLY');
         $user = $this->getUser();
+        // Récupère le panier associé à l'utilisateur avec le status 'en_cours'
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
 
         if (!$cart) {
@@ -34,15 +35,18 @@ final class CartController extends AbstractController
             return $this->redirectToRoute('app_show_empty_cart');
         }
 
+        // Récupère les produits dans le panier
         $cartProducts = $cart->getCartProducts();
 
         if (!$cartProducts || count($cartProducts) === 0) {
             $message = "Votre panier est vide.";
         }
 
+        // Récupère le chemin stocké dans services.yaml pour afficher les images des produits
         $imagePath = $this->getParameter('image_product_path');
 
         $total = 0;
+        // Récupère le prix et la quantité de chaque produit pour les multiplier pour faire un total
         foreach ($cartProducts as $cartProduct) {
             $total += $cartProduct->getUnitPrice() * $cartProduct->getQuantity();
         }
@@ -58,13 +62,14 @@ final class CartController extends AbstractController
     }
 
     #[Route('/panier/ajouter/{id}', name: 'app_add_to_cart')]
-    #[Isgranted('IS_AUTHENTICATED_FULLY')]
     public function addProductToCart(int $id, ProductRepository $productRepository, CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager, Request $request): RedirectResponse
     {
         $user = $this->getUser();
+        // Récupère la valeur quantité envoyée depuis notre requête
         $quantity = (int) $request->request->get('quantity', 1);
 
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        // Si aucun panier n'est en cours alors on en crée un nouveau
         if (!$cart) {
             $cart = new Cart();
             $cart->setUser($user);
@@ -74,6 +79,7 @@ final class CartController extends AbstractController
         }
 
         $product = $productRepository->find($id);
+        // Si le produit est introuvable alors on affiche une erreur
         if (!$product) {
             $this->addFlash('error', 'Produit introuvable');
             return $this->redirectToRoute('app_home');
@@ -123,6 +129,7 @@ final class CartController extends AbstractController
 
         $cartProducts = $cartProductsRepository->findBy(['cart' => $cart]);
 
+        // Marque chaque produit du panier pour la suppression
         foreach ($cartProducts as $cartProduct) {
             $entityManager->remove($cartProduct);
         }

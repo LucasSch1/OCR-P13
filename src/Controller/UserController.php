@@ -13,10 +13,13 @@ final class UserController extends AbstractController
     #[Route('/utilisateur', name: 'app_user_account')]
     public function showUserAccount(): Response
     {
+        // Récupère l'utilisateur connecté
         $user = $this->getUser();
 
+        // Récupère les commandes de l'utilisateur
         $orders = $user->getOrders();
 
+        // Récupère le statut de l'accès API de l'utilisateur
         $apiAccess = $user->isApiAccess();
 
 
@@ -36,11 +39,14 @@ final class UserController extends AbstractController
         if (!$user) {
             return $this->redirectToRoute('app_home');
         }
-
+        // Prépare la suppression de l'utilisateur
         $entityManager->remove($user);
+        // Applique le changement dans la base de données
         $entityManager->flush();
 
+        // Vide le token storage pour déconnecter immédiatement l'utilisateur
         $this->container->get('security.token_storage')->setToken(null);
+        // Détruit la session et supprime le cookie côté client
         $request->getSession()->invalidate();
 
         return $this->redirectToRoute('app_home');
@@ -52,7 +58,9 @@ final class UserController extends AbstractController
     {
         $user = $this->getUser();
 
+        // Change la valeur de la propriété ApiAccess grâce au setter sur true
         $user->setApiAccess(true);
+        // Applique le changement dans la base de données
         $entityManager->flush();
 
         return $this->redirectToRoute('app_user_account');
@@ -62,8 +70,9 @@ final class UserController extends AbstractController
     public function deactivateApiAccess(Request $request,EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
-
+        // Change la valeur de la propriété ApiAccess grâce au setter sur false
         $user->setApiAccess(false);
+        // Applique le changement dans la base de données
         $entityManager->flush();
 
         return $this->redirectToRoute('app_user_account');
