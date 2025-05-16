@@ -29,13 +29,13 @@
             <div class="account-api-section">
                 <h4>Mon accès API</h4>
                 {% if apiAccess == false %}
-                    <a href="{{ path('app_user_activate_api') }}" class="btn account-btn">Activer mon accès API</a>
+                    <a href="{{ path('app_user_activate_api') }}" class="btn">Activer mon accès API</a>
                 {% else %}
-                    <a href="{{ path('app_user_deactivate_api') }}" class="btn account-btn">Désactiver mon accès API</a>
+                    <a href="{{ path('app_user_deactivate_api') }}" class="btn">Désactiver mon accès API</a>
                 {% endif %}
             </div>
             <div class="account-delete-section">
-                <a href="{{ path('app_user_delete_account') }}" class="btn account-btn">Supprimer mon compte</a>
+                <a href="{{ path('app_user_delete_account') }}" class="btn">Supprimer mon compte</a>
             </div>
     </section>
 {% endblock %}

@@ -6,6 +6,9 @@
 
 body {
     background-color: #FFFDF7;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
 }
 
 .btn {
@@ -277,6 +280,7 @@ body {
 
 /*Page détail du produit*/
 .container-flex-detail-product{
+    /*height: 100vh;*/
     display: flex;
     flex-direction: row;
 }
@@ -341,9 +345,13 @@ body {
     font-style: normal;
     font-weight: 400;
     line-height: normal;
-    margin-bottom: 175px;
+    margin-bottom: 165px;
 }
 
+
+#cart_product_form_quantity{
+    margin-bottom: 10px;
+}
 
 .container-flex-detail-product .container-text-product-detail .link-add-cart{
     color: #FFF;
@@ -518,6 +526,7 @@ body {
 .cart-page{
     display: flex;
     align-items: center;
+    height: 100vh;
     flex-direction: column;
     background-color: #F7F1EC;
     justify-content: center;
@@ -687,7 +696,6 @@ body {
     font-family: 'Inter', sans-serif;
     font-size: 13px;
     color: #333;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.01);
 }
 
 .account-orders-table th, .account-orders-table td {
@@ -727,25 +735,6 @@ body {
 .account-delete-section{
     margin-bottom: 77px;
 }
-.account-btn {
-    width: 39%;
-    padding: 30px 183px;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    background: #565656;
-    color: #FFF;
-    font-family: Inter, sans-serif;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: normal;
-    text-align: center;
-    text-decoration: none;
-}
-.account-btn:hover {
-    background: #222;
-}
 
 .account-delete-section {
     margin-bottom: 77px;
@@ -760,10 +749,6 @@ body {
         width: 97%;
         padding-left: 0;
         padding-right: 0;
-    }
-    .account-btn {
-        font-size: 14px;
-        padding: 16px 0;
     }
 }
 
