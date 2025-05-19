@@ -33,14 +33,26 @@ final class CartController extends AbstractController
 
         if (!$cart) {
             $message = "Vous n'avez pas de panier en cours.";
-            return $this->redirectToRoute('app_show_empty_cart');
+            $cartProducts = [];
+            $imagePath = $this->getParameter('image_product_path');
+            $total = 0;
+            $this->addFlash('no_cart', $message);
+            return $this->render('cart/cart.html.twig', [
+                'controller_name' => 'CartController',
+                'cart' => null,
+                'cartProducts' => $cartProducts,
+                'total' => $total,
+                'imagePath' => $imagePath,
+                'message' => $message,
+            ]);
         }
-
         // Récupère les produits dans le panier
         $cartProducts = $cart->getCartProducts();
 
+
+
         if (!$cartProducts || count($cartProducts) === 0) {
-            $message = "Votre panier est vide.";
+            $this->addFlash('empty_cart', 'Votre panier est vide.');
         }
 
         // Récupère le chemin stocké dans services.yaml pour afficher les images des produits
@@ -74,6 +86,7 @@ final class CartController extends AbstractController
             $quantity = $form->get('quantity')->getData();
         }
 
+
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
         // Si aucun panier n'est en cours alors on en crée un nouveau
         if (!$cart) {
@@ -96,10 +109,8 @@ final class CartController extends AbstractController
         if ($cartProduct) {
             if ($quantity > 0) {
                 $cartProduct->setQuantity($quantity);
-                $this->addFlash('success', 'Quantité mise à jour');
             } else {
                 $entityManager->remove($cartProduct);
-                $this->addFlash('success', 'Produit retiré du cart');
             }
         } else {
             if ($quantity > 0) {
@@ -109,7 +120,6 @@ final class CartController extends AbstractController
                 $cartProduct->setQuantity($quantity);
                 $cartProduct->setUnitPrice($product->getProductPrice());
                 $entityManager->persist($cartProduct);
-                $this->addFlash('success', 'Produit ajouté au cart');
             } else {
                 $this->addFlash('info', 'Quantité invalide');
             }
@@ -130,7 +140,7 @@ final class CartController extends AbstractController
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
 
         if (!$cart) {
-            $message = 'Aucun panier en cours';
+            $this->addFlash('no_cart','Aucun panier en cours.');
         }
 
         $cartProducts = $cartProductsRepository->findBy(['cart' => $cart]);
@@ -150,13 +160,13 @@ final class CartController extends AbstractController
     }
 
     #[Route('/panier/valider', name: 'app_validate_cart')]
-    public function validateCommande(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): RedirectResponse
+    public function validateCommande(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
 
         if (!$cart) {
-            $this->addFlash('error', 'Aucun panier en cours');
+            $this->addFlash('no_cart', 'Aucun panier en cours');
             return $this->redirectToRoute('app_cart');
         }
 
@@ -187,9 +197,19 @@ final class CartController extends AbstractController
         $order->setIsValidated(true);
         $entityManager->flush();
 
-        $this->addFlash('success', 'Votre commande a été validée avec succès.');
-
-        return $this->redirectToRoute('app_cart');
+        $message = "Votre achat à bien été pris en compte. Merci pour votre confiance.";
+        $cartProducts = [];
+        $imagePath = $this->getParameter('image_product_path');
+        $total = 0;
+        $this->addFlash('order_validation_success', $message);
+        return $this->render('cart/cart.html.twig', [
+            'controller_name' => 'CartController',
+            'cart' => null,
+            'cartProducts' => $cartProducts,
+            'total' => $total,
+            'imagePath' => $imagePath,
+            'message' => $message,
+        ]);
     }
 
 
