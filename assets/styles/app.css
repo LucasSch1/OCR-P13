@@ -2,6 +2,7 @@
 *,body{
     margin: 0;
     padding: 0;
+
 }
 
 body {
@@ -417,7 +418,7 @@ body {
     padding-left: 10px;
 }
 
-.login-container .login-form-section form label{
+form label{
     font-size: 14px;
     font-family: Inter, sans-serif;
     color: #333333;
@@ -438,13 +439,15 @@ body {
 
 }
 
-.login-form-section form .registration-link{
+.registration-login-link{
     color: #666666;
     font-size: 14px;
     font-family: Inter, sans-serif;
     font-weight: 400;
     text-align: center;
 }
+
+
 
 /*Partie Inscription */
 .register-container{
@@ -461,7 +464,9 @@ body {
 
 .register-container .register-form-content {
     padding: 80px 113px 143px 113px;
-    width: 479px;
+    width: 50%;
+    display: flex;
+    flex-direction: column;
 }
 
 .register-form-content .register-form-title h1{
@@ -511,6 +516,23 @@ body {
     font-size: 14px;
     border: 1px solid #ccc;
     border-radius: 4px;
+}
+
+.btn-registration{
+    margin-bottom: 27px;
+}
+
+.terms-container{
+    display: flex;
+    flex-direction: row;
+    gap: 7px;
+}
+
+.terms-container-text{
+    color: #666666;
+    font-size: 14px;
+    font-weight: 400;
+    font-family: Inter, sans-serif;
 }
 
 .form-error {
@@ -733,10 +755,6 @@ body {
 }
 
 .account-delete-section{
-    margin-bottom: 77px;
-}
-
-.account-delete-section {
     margin-bottom: 77px;
 }
 
