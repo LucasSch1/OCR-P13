@@ -160,7 +160,7 @@ final class CartController extends AbstractController
     }
 
     #[Route('/panier/valider', name: 'app_validate_cart')]
-    public function validateCommande(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): Response
+    public function validateOrder(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): Response
     {
         $user = $this->getUser();
         $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
@@ -210,13 +210,6 @@ final class CartController extends AbstractController
             'imagePath' => $imagePath,
             'message' => $message,
         ]);
-    }
-
-
-    #[Route('/panier/vide', name: 'app_show_empty_cart')]
-    public function showEmptyCart(): Response
-    {
-        return $this->render('cart/empty.html.twig');
     }
 
 }
