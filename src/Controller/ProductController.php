@@ -29,7 +29,7 @@ final class ProductController extends AbstractController
         $inCart = false;
 
         if ($user) {
-            $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+            $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
             if ($cart) {
                 // Récupération du produit s'il est dans le panier
                 $cartProducts = $cartProductsRepository->findOneBy(['cart' => $cart, 'product' => $selectedProduct]);

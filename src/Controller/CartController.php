@@ -28,8 +28,8 @@ final class CartController extends AbstractController
     {
         $message = "";
         $user = $this->getUser();
-        // Récupère le panier associé à l'utilisateur avec le status 'en_cours'
-        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        // Récupère le panier associé à l'utilisateur avec le status 'current'
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
 
         if (!$cart) {
             $message = "Vous n'avez pas de panier en cours.";
@@ -74,12 +74,12 @@ final class CartController extends AbstractController
             $quantity = $form->get('quantity')->getData();
         }
 
-        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
         // Si aucun panier n'est en cours alors on en crée un nouveau
         if (!$cart) {
             $cart = new Cart();
             $cart->setUser($user);
-            $cart->setStatus('en_cours');
+            $cart->setStatus('current');
             $entityManager->persist($cart);
             $entityManager->flush();
         }
@@ -127,7 +127,7 @@ final class CartController extends AbstractController
     {
         $message = '';
         $user = $this->getUser();
-        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
 
         if (!$cart) {
             $message = 'Aucun panier en cours';
@@ -153,7 +153,7 @@ final class CartController extends AbstractController
     public function validateCommande(CartRepository $cartRepository, CartProductsRepository $cartProductsRepository, EntityManagerInterface $entityManager): RedirectResponse
     {
         $user = $this->getUser();
-        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'en_cours']);
+        $cart = $cartRepository->findOneBy(['user' => $user, 'status' => 'current']);
 
         if (!$cart) {
             $this->addFlash('error', 'Aucun panier en cours');
@@ -181,7 +181,7 @@ final class CartController extends AbstractController
         $entityManager->persist($order);
         $entityManager->flush();
 
-        $cart->setStatus('finalisé');
+        $cart->setStatus('finalized');
         $entityManager->flush();
 
         $order->setIsValidated(true);
