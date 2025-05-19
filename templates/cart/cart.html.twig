@@ -10,7 +10,7 @@
         </div>
         <div class="cart-content">
             <div class="cart-content-delete">
-                <a href="{{ path('app_empty_cart')}}">x Vider le panier</a>
+                <a href="{{ path('app_empty_cart')}}" class="delete-product-cart">x Vider le panier</a>
             </div>
             <div class="cart-content-products-list">
                 {% for cartProduct in cartProducts %}
@@ -56,7 +56,6 @@
         {% endfor %}
         {% for message in app.flashes('empty_cart') %}
         Swal.fire({
-            position: "top",
             icon: 'error',
             title: '{{ message|e("js") }}',
             showConfirmButton: true,
@@ -64,7 +63,6 @@
         {% endfor %}
         {% for message in app.flashes('no_cart') %}
         Swal.fire({
-            position: "top",
             icon: 'error',
             title: '{{ message|e("js") }}',
             showConfirmButton: true,
