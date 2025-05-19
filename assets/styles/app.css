@@ -568,12 +568,13 @@ form label{
     margin-bottom: 16px;
 }
 
-.cart-page .cart-container .cart-content .cart-content-delete{
+.cart-page .cart-container .cart-content .cart-content-delete, .delete-product-cart{
     color: #666666;
     font-family: Inter, sans-serif;
     font-size: 14px;
     font-weight: 400;
     margin-bottom: 17px;
+    text-decoration: none;
 }
 
 .cart-page .cart-container .cart-content .cart-content-products-list{
