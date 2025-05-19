@@ -14,7 +14,7 @@ class CartProductForm extends AbstractType
             ->add('quantity', IntegerType::class, [
                 'label' => 'Quantité :',
                 'attr' => [
-                    'min' => 1
+                    'min' => 0
                 ]
             ]);
     }
