@@ -43,14 +43,20 @@
                     <div class="form-error">{{ form_errors(registrationForm.plainPassword) }}</div>
                 </div>
                 <div class="form-group">
-                    {{ form_label(registrationForm.agreeTerms, "J'accepte les CGU de GreenGoodies") }}
-                    {{ form_widget(registrationForm.agreeTerms) }}
+                    <div class="terms-container">
+                        <div class="terms-container-checkbox">
+                            {{ form_widget(registrationForm.agreeTerms) }}
+                        </div>
+                        <div class="terms-container-text">
+                            {{ form_label(registrationForm.agreeTerms, "J'accepte les CGU de GreenGoodies") }}
+                        </div>
+                    </div>
                     <div class="form-error">{{ form_errors(registrationForm.agreeTerms) }}</div>
                 </div>
 
                 <button type="submit" class="btn btn-registration">S'inscrire</button>
                 {{ form_end(registrationForm) }}
-                <a href="{{ path ("app_login") }}">Déja un compte ? Se connecter</a>
+                <a href="{{ path ("app_login") }}" class="registration-login-link">Déja un compte ? Se connecter</a>
             </div>
         </div>
     </div>
